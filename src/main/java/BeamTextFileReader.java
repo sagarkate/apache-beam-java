@@ -28,7 +28,7 @@ public class BeamTextFileReader {
     }
 
     // If you make below interface private, it raises IllegalArgumentException
-    //    java.lang.IllegalArgumentException: Please mark non-public interface Beam TextFileReader$Options as public
+    //    java.lang.IllegalArgumentException: Please mark non-public interface BeamTextFileReader$Options as public
     public interface Options extends PipelineOptions {
         @Description("Input CSV File Path")
         String getInput();
