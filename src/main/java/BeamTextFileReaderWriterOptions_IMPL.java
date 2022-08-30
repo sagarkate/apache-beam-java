@@ -1,12 +1,12 @@
+import org.apache.beam.sdk.options.Description;
 import org.apache.beam.sdk.options.PipelineOptions;
+import org.apache.beam.sdk.options.ValueProvider;
 
 public interface BeamTextFileReaderWriterOptions_IMPL extends PipelineOptions {
-    String getInput();
-    void setInput(String input);
+    @Description("Input File Path")
+    ValueProvider<String> getInput();
+    void setInput(ValueProvider<String> input);
 
-    String getOutput();
-    void setOutput(String output);
-
-    String getSuffix();
-    void setSuffix(String suffix);
+    ValueProvider<String> getOutput();
+    void setOutput(ValueProvider<String> output);
 }

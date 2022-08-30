@@ -34,7 +34,7 @@ public class BeamMapElementsWithTypeDescriptors {
                 "Write Data",
                 TextIO.write()
                         .to(pipelineOptions.getOutput())
-                        .withSuffix(pipelineOptions.getSuffix())
+                        .withSuffix(".CSV")
                         .withHeader("username")
                         .withNumShards(1));
 
@@ -44,4 +44,4 @@ public class BeamMapElementsWithTypeDescriptors {
 }
 
 // Set arguments in Run Configuration of IDE in below fashion
-// --input="C:\\code\\gcp_code\\dataflow_java\\apache_beam_java_input\\user_map_elements.csv" --output="C:\\code\\gcp_code\\dataflow_java\\apache_beam_java_output\\user_map_elements_typedescriptors_output" --suffix=".csv"
+// --input="C:\\code\\gcp_code\\dataflow_java\\apache_beam_java_input\\user_map_elements.csv" --output="C:\\code\\gcp_code\\dataflow_java\\apache_beam_java_output\\user_map_elements_typedescriptors_output"
