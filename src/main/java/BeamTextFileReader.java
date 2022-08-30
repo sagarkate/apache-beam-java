@@ -59,5 +59,5 @@ public class BeamTextFileReader {
     }
 }
 
-// Set arguments in Run Configuration of IntelliJ IDEA in below fashion
+// Set arguments in Run Configuration of IDE in below fashion
 //--input="C:\\data\\input\\cards.txt" --output="C:\\data\\output\\cards_customer_output" --customerId="CT42260"
