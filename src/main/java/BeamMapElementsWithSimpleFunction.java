@@ -1,3 +1,4 @@
+import com.practice.gcp.options.TextFileOptions;
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.io.TextIO;
 import org.apache.beam.sdk.options.PipelineOptionsFactory;
@@ -7,7 +8,6 @@ import org.apache.beam.sdk.transforms.SimpleFunction;
 import org.apache.beam.sdk.values.PCollection;
 
 import java.util.Arrays;
-import java.util.Locale;
 
 class UserSimpleFn extends SimpleFunction<String, String> {
     @Override
@@ -40,11 +40,11 @@ class UserSimpleFn extends SimpleFunction<String, String> {
 
 public class BeamMapElementsWithSimpleFunction {
     public static void main(String[] args) {
-        BeamTextFileReaderWriterOptions_IMPL pipelineOptions =
+        TextFileOptions pipelineOptions =
                 PipelineOptionsFactory
                 .fromArgs(args)
                 .withValidation()
-                .as(BeamTextFileReaderWriterOptions_IMPL.class);
+                .as(TextFileOptions.class);
         Pipeline pipeline = Pipeline.create(pipelineOptions);
 
         String HEADER = "sessionid,userid,username,videoid,duration,starttime,sex";

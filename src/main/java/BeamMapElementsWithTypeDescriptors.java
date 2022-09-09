@@ -1,3 +1,4 @@
+import com.practice.gcp.options.TextFileOptions;
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.io.TextIO;
 import org.apache.beam.sdk.options.PipelineOptionsFactory;
@@ -9,11 +10,11 @@ import org.apache.beam.sdk.values.TypeDescriptors;
 public class BeamMapElementsWithTypeDescriptors {
     public static void main(String[] args) {
 
-        BeamTextFileReaderWriterOptions_IMPL pipelineOptions =
+        TextFileOptions pipelineOptions =
                 PipelineOptionsFactory
                         .fromArgs(args)
                         .withValidation()
-                        .as(BeamTextFileReaderWriterOptions_IMPL.class);
+                        .as(TextFileOptions.class);
         Pipeline pipeline = Pipeline.create(pipelineOptions);
 
         PCollection<String> inputData = pipeline.apply(

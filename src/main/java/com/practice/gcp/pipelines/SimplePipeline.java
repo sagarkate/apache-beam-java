@@ -1,3 +1,6 @@
+package com.practice.gcp.pipelines;
+
+import com.practice.gcp.options.TextFileOptions;
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.coders.StringUtf8Coder;
 import org.apache.beam.sdk.options.PipelineOptionsFactory;
@@ -11,8 +14,8 @@ import java.util.List;
 
 public class SimplePipeline {
     public static void main(String[] args) {
-        PipelineOptionsFactory.register(BeamTextFileReaderWriterOptions_IMPL.class);
-        BeamTextFileReaderWriterOptions_IMPL pipelineOptions = PipelineOptionsFactory.fromArgs(args).withValidation().as(BeamTextFileReaderWriterOptions_IMPL.class);
+        PipelineOptionsFactory.register(TextFileOptions.class);
+        TextFileOptions pipelineOptions = PipelineOptionsFactory.fromArgs(args).withValidation().as(TextFileOptions.class);
         Pipeline pipeline = Pipeline.create(pipelineOptions);
 
         List<String> lines = Arrays.asList(

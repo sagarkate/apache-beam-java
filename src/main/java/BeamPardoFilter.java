@@ -1,3 +1,4 @@
+import com.practice.gcp.options.TextFileOptions;
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.PipelineResult;
 import org.apache.beam.sdk.io.TextIO;
@@ -27,7 +28,7 @@ class FilterDoFn extends DoFn<String, String> {
 
 public class BeamPardoFilter {
     public static void main(String[] args) {
-        BeamTextFileReaderWriterOptions_IMPL pipelineOptions = PipelineOptionsFactory.fromArgs(args).withValidation().as(BeamTextFileReaderWriterOptions_IMPL.class);
+        TextFileOptions pipelineOptions = PipelineOptionsFactory.fromArgs(args).withValidation().as(TextFileOptions.class);
         Pipeline pipeline = Pipeline.create(pipelineOptions);
 
         String HEADER = "id,name,last name,city";
