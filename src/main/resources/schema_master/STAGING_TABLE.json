@@ -1,0 +1,17 @@
+[
+  {
+    "name": "id",
+    "type": "INTEGER",
+    "fields": []
+  },
+  {
+    "name": "name",
+    "type": "STRING",
+    "fields": []
+  },
+  {
+    "name": "salary",
+    "type": "INTEGER",
+    "fields": []
+  }
+]
