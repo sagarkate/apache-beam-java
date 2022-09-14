@@ -19,6 +19,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +34,20 @@ public class BigQueryRawToStagingPipeline {
     public static void setTableRowField(TableRow inputRow, TableRow outputRow, String fieldName, String fieldType) {
         if (fieldType.equals("INTEGER") || fieldType.equals("LONG")) {
             outputRow.set(fieldName, Long.parseLong((String) inputRow.get(fieldName)));
-        } else {
+        } else if (fieldType.equals("NUMERIC")) {
+            outputRow.set(fieldName, new BigDecimal((String) inputRow.get(fieldName)).toString());
+        } else if (fieldType.equals("DATE")) {
+            outputRow.set(fieldName, LocalDate.parse((String) inputRow.get(fieldName)).toString());
+        } else if (fieldType.equals("DATETIME")) {
+            outputRow.set(fieldName, LocalDateTime.parse((String) inputRow.get(fieldName)).toString());
+        } else if (fieldType.equals("TIMESTAMP")) {
+            outputRow.set(fieldName, Instant.parse((String) inputRow.get(fieldName)).toString());
+        } else if (fieldType.equals("BOOLEAN")) {
+            outputRow.set(fieldName, Boolean.parseBoolean((String) inputRow.get(fieldName)));
+        } else if (fieldType.equals("FLOAT")) {
+            outputRow.set(fieldName, Double.parseDouble((String) inputRow.get(fieldName)));
+        }
+        else {
             outputRow.set(fieldName, inputRow.get(fieldName));
         }
     }

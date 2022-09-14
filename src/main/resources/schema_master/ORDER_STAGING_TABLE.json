@@ -1,0 +1,62 @@
+[
+  {
+    "name": "order_id",
+    "type": "INTEGER",
+    "fields": []
+  },
+  {
+    "name": "cust_id",
+    "type": "INTEGER",
+    "fields": []
+  },
+  {
+    "name": "product_id",
+    "type": "INTEGER",
+    "fields": []
+  },
+  {
+    "name": "product_desc",
+    "type": "STRING",
+    "fields": []
+  },
+  {
+    "name": "dept_id",
+    "type": "INTEGER",
+    "fields": []
+  },
+  {
+    "name": "quantity",
+    "type": "INTEGER",
+    "fields": []
+  },
+  {
+    "name": "amount",
+    "type": "NUMERIC",
+    "fields": []
+  },
+  {
+    "name": "create_dt",
+    "type": "DATE",
+    "fields": []
+  },
+  {
+    "name": "create_datetime",
+    "type": "DATETIME",
+    "fields": []
+  },
+  {
+    "name": "create_ts",
+    "type": "TIMESTAMP",
+    "fields": []
+  },
+  {
+    "name": "is_subscriber",
+    "type": "BOOLEAN",
+    "fields": []
+  },
+  {
+    "name": "avg_rating",
+    "type": "FLOAT",
+    "fields": []
+  }
+]
