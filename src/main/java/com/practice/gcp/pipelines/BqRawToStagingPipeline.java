@@ -32,6 +32,7 @@ public class BqRawToStagingPipeline {
 
     private static final Logger LOG = LoggerFactory.getLogger(BqRawToStagingPipeline.class);
     private static final SchemaParser schemaParser = new SchemaParser();
+    private static final String RECORD_LOAD_TS = "record_load_ts";
 
     public static void setField(TableRow inputRow, TableRow outputRow, String fieldName, String fieldType) {
         if (fieldType.equals("INTEGER") || fieldType.equals("LONG")) {
@@ -63,14 +64,22 @@ public class BqRawToStagingPipeline {
             JSONObject field = (JSONObject) o;
             String fieldName = (String) field.get("name");
             String fieldType = (String) field.get("type");
-            setField(inputRow, outputRow, fieldName, fieldType);
+            if (fieldName.equals(RECORD_LOAD_TS)) {
+                outputRow.set(RECORD_LOAD_TS, DateTimeFormatter.ISO_OFFSET_DATE_TIME.parse(Instant.now().toString(), Instant::from).toString());
+            } else {
+                setField(inputRow, outputRow, fieldName, fieldType);
+            }
         }
+
     }
 
     public static List<String> getProjectedColumns(JSONArray jsonArray) {
         List<String> projectedColumns = new ArrayList<>();
         for(Object o: jsonArray) {
-            projectedColumns.add((String) ((JSONObject) o).get("name"));
+            String column = (String) ((JSONObject) o).get("name");
+            if (!column.equals(RECORD_LOAD_TS)) {
+                projectedColumns.add((String) ((JSONObject) o).get("name"));
+            }
         }
 
         return projectedColumns;

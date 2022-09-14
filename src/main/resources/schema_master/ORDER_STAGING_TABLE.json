@@ -58,5 +58,10 @@
     "name": "avg_rating",
     "type": "FLOAT",
     "fields": []
+  },
+  {
+    "name": "record_load_ts",
+    "type": "TIMESTAMP",
+    "fields": []
   }
 ]
