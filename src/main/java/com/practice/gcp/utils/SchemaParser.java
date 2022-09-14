@@ -10,6 +10,7 @@ import org.json.simple.parser.ParseException;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -18,7 +19,7 @@ public class SchemaParser {
     public String toJsonString(String schemaJsonPath) throws IOException {
         ClassLoader classLoader = SchemaParser.class.getClassLoader();
         File file = new File(Objects.requireNonNull(classLoader.getResource(schemaJsonPath)).getFile());
-        return FileUtils.readFileToString(file, "UTF-8");
+        return FileUtils.readFileToString(file, StandardCharsets.UTF_8);
     }
 
     public JSONArray toJsonArray(String schemaJson) throws ParseException {
