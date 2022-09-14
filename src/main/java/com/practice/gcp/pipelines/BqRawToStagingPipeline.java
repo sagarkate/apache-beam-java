@@ -24,6 +24,7 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +43,11 @@ public class BqRawToStagingPipeline {
         } else if (fieldType.equals("DATETIME")) {
             outputRow.set(fieldName, LocalDateTime.parse((String) inputRow.get(fieldName)).toString());
         } else if (fieldType.equals("TIMESTAMP")) {
-            outputRow.set(fieldName, Instant.parse((String) inputRow.get(fieldName)).toString());
+//            outputRow.set(fieldName, Instant.parse((String) inputRow.get(fieldName)).toString());
+            // This doesn't work.
+            // It causes below error:
+//            org.apache.beam.sdk.Pipeline$PipelineExecutionException: java.time.format.DateTimeParseException: Text '2022-05-23T13:25:34.123+05:30' could not be parsed at index 23
+            outputRow.set(fieldName, DateTimeFormatter.ISO_OFFSET_DATE_TIME.parse((String) inputRow.get(fieldName), Instant::from).toString());
         } else if (fieldType.equals("BOOLEAN")) {
             outputRow.set(fieldName, Boolean.parseBoolean((String) inputRow.get(fieldName)));
         } else if (fieldType.equals("FLOAT")) {
