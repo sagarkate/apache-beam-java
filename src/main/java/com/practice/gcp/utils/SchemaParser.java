@@ -15,18 +15,18 @@ import java.util.List;
 import java.util.Objects;
 
 public class SchemaParser {
-    public String getJsonSchema(String schemaJsonPath) throws IOException {
+    public String toJsonString(String schemaJsonPath) throws IOException {
         ClassLoader classLoader = SchemaParser.class.getClassLoader();
         File file = new File(Objects.requireNonNull(classLoader.getResource(schemaJsonPath)).getFile());
         return FileUtils.readFileToString(file, "UTF-8");
     }
 
-    public JSONArray getJsonSimpleArray(String schemaJson) throws ParseException {
+    public JSONArray toJsonArray(String schemaJson) throws ParseException {
         JSONParser jsonParser = new JSONParser();
         return (JSONArray) jsonParser.parse(schemaJson);
     }
 
-    public TableSchema generateTableSchema(JSONArray jsonArray) {
+    public TableSchema toTableSchema(JSONArray jsonArray) {
         TableSchema schema = new TableSchema();
         List<TableFieldSchema> fields = new ArrayList<>();
         for (Object o : jsonArray) {
@@ -40,9 +40,9 @@ public class SchemaParser {
     }
 
     public TableSchema parse(String jsonSchemaPath) throws IOException, ParseException {
-        String jsonSchema = getJsonSchema(jsonSchemaPath);
-        JSONArray jsonArray = getJsonSimpleArray(jsonSchema);
-        return generateTableSchema(jsonArray);
+        String jsonSchema = toJsonString(jsonSchemaPath);
+        JSONArray jsonArray = toJsonArray(jsonSchema);
+        return toTableSchema(jsonArray);
     }
 
 }
