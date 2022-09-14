@@ -1,3 +1,5 @@
+package com.practice.gcp.other_examples;
+
 import java.io.Serializable;
 
 public class Customer implements Serializable {

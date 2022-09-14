@@ -1,3 +1,5 @@
+package com.practice.gcp.other_examples;
+
 import com.practice.gcp.options.TextFileOptions;
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.PipelineResult;
@@ -72,7 +74,7 @@ public class BeamPardoFilter {
     at org.apache.beam.runners.dataflow.DataflowPipelineJob.waitUntilFinish (DataflowPipelineJob.java:249)
     at org.apache.beam.runners.dataflow.DataflowPipelineJob.waitUntilFinish (DataflowPipelineJob.java:208)
     at org.apache.beam.runners.dataflow.DataflowPipelineJob.waitUntilFinish (DataflowPipelineJob.java:202)
-    at BeamPardoFilter.main (BeamPardoFilter.java:49)
+    at com.practice.gcp.other_examples.BeamPardoFilter.main (com.practice.gcp.other_examples.BeamPardoFilter.java:49)
 *
 * Solution: Add try-catch block
 * */

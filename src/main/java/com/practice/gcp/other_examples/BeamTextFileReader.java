@@ -1,3 +1,5 @@
+package com.practice.gcp.other_examples;
+
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.io.TextIO;
 import org.apache.beam.sdk.options.Description;
@@ -28,7 +30,7 @@ public class BeamTextFileReader {
     }
 
     // If you make below interface private, it raises IllegalArgumentException
-    //    java.lang.IllegalArgumentException: Please mark non-public interface BeamTextFileReader$Options as public
+    //    java.lang.IllegalArgumentException: Please mark non-public interface com.practice.gcp.other_examples.BeamTextFileReader$Options as public
     public interface Options extends PipelineOptions {
         @Description("Input CSV File Path")
         String getInput();
@@ -47,7 +49,7 @@ public class BeamTextFileReader {
         Options pipeline_options = PipelineOptionsFactory.fromArgs(args).withValidation().as(Options.class);
         Pipeline pipeline = Pipeline.create(pipeline_options);
         PCollection<String> lines = pipeline.apply("Read from TextFile", TextIO.read().from(pipeline_options.getInput()));
-        PCollection<String> onlyData = lines.apply("Filter Customer", ParDo.of(new FilterCustomer(pipeline_options.getCustomerId())));
+        PCollection<String> onlyData = lines.apply("Filter com.practice.gcp.other_examples.Customer", ParDo.of(new FilterCustomer(pipeline_options.getCustomerId())));
 
         onlyData.apply(
                 TextIO.write()

@@ -1,3 +1,5 @@
+package com.practice.gcp.other_examples;
+
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.io.TextIO;
 import org.apache.beam.sdk.options.PipelineOptionsFactory;
@@ -13,7 +15,7 @@ public class BeamInMemoryDataToTextFileWriterWithOptions {
     public static void main(String[] args) {
         BeamInMemoryDataToTextFileWriterOptions_IMPL pipelineOptions = PipelineOptionsFactory.fromArgs(args).withValidation().as(BeamInMemoryDataToTextFileWriterOptions_IMPL.class);
         Pipeline p = Pipeline.create(pipelineOptions);
-        PCollection<Customer> customerPcoll = p.apply("Read from Customer List", Create.of(getCustomers()));
+        PCollection<Customer> customerPcoll = p.apply("Read from com.practice.gcp.other_examples.Customer List", Create.of(getCustomers()));
         PCollection<String> customerNamesPcoll = customerPcoll.apply(
                 MapElements
                         .into(TypeDescriptors.strings())

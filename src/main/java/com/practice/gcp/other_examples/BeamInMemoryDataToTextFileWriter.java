@@ -1,9 +1,10 @@
+package com.practice.gcp.other_examples;
+
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.io.TextIO;
 import org.apache.beam.sdk.transforms.Create;
 import org.apache.beam.sdk.transforms.DoFn;
 import org.apache.beam.sdk.transforms.MapElements;
-import org.apache.beam.sdk.transforms.ParDo;
 import org.apache.beam.sdk.values.PCollection;
 import org.apache.beam.sdk.values.TypeDescriptors;
 
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 public class BeamInMemoryDataToTextFileWriter {
     public static void main(String[] args) {
         Pipeline p = Pipeline.create();
-        PCollection<Customer> customerPcoll = p.apply("Read from Customer List", Create.of(getCustomers()));
+        PCollection<Customer> customerPcoll = p.apply("Read from com.practice.gcp.other_examples.Customer List", Create.of(getCustomers()));
         PCollection<String> customerNamesPcoll = customerPcoll.apply(
                 MapElements
                         .into(TypeDescriptors.strings())
