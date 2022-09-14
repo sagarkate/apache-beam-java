@@ -7,7 +7,7 @@ import org.apache.beam.sdk.options.Description;
 import org.apache.beam.sdk.options.PipelineOptions;
 import org.apache.beam.sdk.options.ValueProvider;
 
-public interface BigQueryPipelineOptions extends PipelineOptions, BigQueryOptions {
+public interface BqToBqPipelineOptions extends PipelineOptions, BigQueryOptions {
     @Description("Fully Qualified Name of Input BigQuery Table in format : <project-id>:<dataset-id>.<table-name> ")
     void setInput(ValueProvider<String> input);
     ValueProvider<String> getInput();

@@ -2,7 +2,7 @@ package com.practice.gcp.pipelines;
 
 import com.google.api.services.bigquery.model.TableRow;
 import com.google.api.services.bigquery.model.TableSchema;
-import com.practice.gcp.options.BigQueryPipelineOptions;
+import com.practice.gcp.options.BqToBqPipelineOptions;
 import com.practice.gcp.utils.SchemaParser;
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.PipelineResult;
@@ -27,9 +27,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BigQueryRawToStagingPipeline {
+public class BqRawToStagingPipeline {
 
-    private static final Logger LOG = LoggerFactory.getLogger(BigQueryRawToStagingPipeline.class);
+    private static final Logger LOG = LoggerFactory.getLogger(BqRawToStagingPipeline.class);
     private static final SchemaParser schemaParser = new SchemaParser();
 
     public static void setField(TableRow inputRow, TableRow outputRow, String fieldName, String fieldType) {
@@ -101,7 +101,7 @@ public class BigQueryRawToStagingPipeline {
         }
     }
 
-    public static void createPipeline(Pipeline pipeline, BigQueryPipelineOptions pipelineOptions) throws IOException, ParseException {
+    public static void createPipeline(Pipeline pipeline, BqToBqPipelineOptions pipelineOptions) throws IOException, ParseException {
         TableSchema schema = schemaParser.parse(pipelineOptions.getSchemaJsonPath());
         JSONArray jsonArray = schemaParser.toJsonArray(schemaParser.toJsonString(pipelineOptions.getSchemaJsonPath()));
         List<String> projectedColumns = getProjectedColumns(jsonArray);
@@ -130,7 +130,7 @@ public class BigQueryRawToStagingPipeline {
         );
     }
 
-    public static void runPipeline(BigQueryPipelineOptions pipelineOptions) throws IOException, ParseException {
+    public static void runPipeline(BqToBqPipelineOptions pipelineOptions) throws IOException, ParseException {
         LOG.info("Running BigQuery Simple Pipeline with options " + pipelineOptions.toString());
         Pipeline pipeline = Pipeline.create(pipelineOptions);
         createPipeline(pipeline, pipelineOptions);
@@ -147,11 +147,11 @@ public class BigQueryRawToStagingPipeline {
     }
 
     public static void main(String[] args) throws IOException, ParseException {
-        PipelineOptionsFactory.register(BigQueryPipelineOptions.class);
-        BigQueryPipelineOptions pipelineOptions = PipelineOptionsFactory
+        PipelineOptionsFactory.register(BqToBqPipelineOptions.class);
+        BqToBqPipelineOptions pipelineOptions = PipelineOptionsFactory
                 .fromArgs(args)
                 .withValidation()
-                .as(BigQueryPipelineOptions.class);
+                .as(BqToBqPipelineOptions.class);
 
         runPipeline(pipelineOptions);
     }
