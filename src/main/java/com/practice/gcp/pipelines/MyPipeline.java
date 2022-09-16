@@ -23,6 +23,23 @@ public class MyPipeline {
     private static final Logger LOG = LoggerFactory.getLogger(MyPipeline.class);
     private static final String SCHEMA_FIELD_DELIMITER = "\\|";
 
+    public static TableSchema getTableSchema(String schema) {
+        TableSchema tableSchema = new TableSchema();
+        List<String> inputFields = Arrays.asList(schema.split(SCHEMA_FIELD_DELIMITER));
+        LOG.info("MyPipelineTransformLog - input fields: "+inputFields);
+        List<TableFieldSchema> tableSchemaFields = new ArrayList<>();
+        for (String inputField : inputFields) {
+            LOG.info("\n\nMyPipelineTransformLog - inputField: "+ inputField);
+            String[] fieldNameAndType = inputField.split(":");
+            String fieldName = fieldNameAndType[0];
+            String fieldType = fieldNameAndType[1];
+            LOG.info(String.format("MyPipelineTransformLog - Field Name: %s, Field Type: %s", fieldName, fieldType));
+            tableSchemaFields.add(new TableFieldSchema().setName(fieldName).setType(fieldType));
+        }
+
+        return tableSchema.setFields(tableSchemaFields);
+    }
+
     public static void main(String[] args) {
         PipelineOptionsFactory.register(MyOptions.class);
         MyOptions pipelineOptions = PipelineOptionsFactory.fromArgs(args).withValidation().as(MyOptions.class);
@@ -54,19 +71,7 @@ public class MyPipeline {
                             @Override
                             public TableSchema apply(String schema) {
                                 LOG.info("MyPipelineTransformLog - Input schema: " + schema);
-                                TableSchema tableSchema = new TableSchema();
-                                List<String> inputFields = Arrays.asList(schema.split(SCHEMA_FIELD_DELIMITER));
-                                LOG.info("MyPipelineTransformLog - input fields: "+inputFields);
-                                List<TableFieldSchema> tableSchemaFields = new ArrayList<>();
-                                for (String inputField : inputFields) {
-                                    LOG.info("\n\nMyPipelineTransformLog - inputField: "+ inputField);
-                                    String[] fieldNameAndType = inputField.split(":");
-                                    String fieldName = fieldNameAndType[0];
-                                    String fieldType = fieldNameAndType[1];
-                                    LOG.info(String.format("MyPipelineTransformLog - Field Name: %s, Field Type: %s", fieldName, fieldType));
-                                    tableSchemaFields.add(new TableFieldSchema().setName(fieldName).setType(fieldType));
-                                }
-                                tableSchema.setFields(tableSchemaFields);
+                                TableSchema tableSchema = getTableSchema(schema);
                                 LOG.info("MyPipelineTransformLog - Returned Table Schema - " + tableSchema);
                                 return tableSchema;
                             }
