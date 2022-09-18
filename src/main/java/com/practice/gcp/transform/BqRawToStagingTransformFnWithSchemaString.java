@@ -12,13 +12,13 @@ import org.apache.beam.sdk.transforms.DoFn;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class BqRawToStagingTransformFn extends DoFn<TableRow, TableRow> {
+public class BqRawToStagingTransformFnWithSchemaString extends DoFn<TableRow, TableRow> {
     private static final String RECORD_LOAD_TS = "record_load_ts";
-    private static final Logger LOG = LoggerFactory.getLogger(BqRawToStagingTransformFn.class);
+    private static final Logger LOG = LoggerFactory.getLogger(BqRawToStagingTransformFnWithSchemaString.class);
     ValueProvider<String> schema;
     String schemaFieldDelimiter;
 
-    public BqRawToStagingTransformFn(ValueProvider<String> schema, String schemaFieldDelimiter) {
+    public BqRawToStagingTransformFnWithSchemaString(ValueProvider<String> schema, String schemaFieldDelimiter) {
         this.schema = schema;
         this.schemaFieldDelimiter = schemaFieldDelimiter;
     }

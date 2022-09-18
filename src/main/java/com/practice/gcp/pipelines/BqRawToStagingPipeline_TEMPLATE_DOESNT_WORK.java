@@ -2,8 +2,8 @@ package com.practice.gcp.pipelines;
 
 import com.google.api.services.bigquery.model.TableRow;
 import com.google.api.services.bigquery.model.TableSchema;
-import com.practice.gcp.options.BqToBqPipelineOptions;
-import com.practice.gcp.utils.SchemaParser;
+import com.practice.gcp.options.BqToBqPipelineOptions_TEMPLATE_DOESNT_WORK;
+import com.practice.gcp.utils.SchemaParser_TEMPLATE_DOESNT_WORK;
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.PipelineResult;
 import org.apache.beam.sdk.io.gcp.bigquery.BigQueryIO;
@@ -28,10 +28,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BqRawToStagingPipeline {
+public class BqRawToStagingPipeline_TEMPLATE_DOESNT_WORK {
 
-    private static final Logger LOG = LoggerFactory.getLogger(BqRawToStagingPipeline.class);
-    private static final SchemaParser schemaParser = new SchemaParser();
+    private static final Logger LOG = LoggerFactory.getLogger(BqRawToStagingPipeline_TEMPLATE_DOESNT_WORK.class);
+    private static final SchemaParser_TEMPLATE_DOESNT_WORK schemaParser = new SchemaParser_TEMPLATE_DOESNT_WORK();
     private static final String RECORD_LOAD_TS = "record_load_ts";
 
     public static void setField(TableRow inputRow, TableRow outputRow, String fieldName, String fieldType) {
@@ -115,7 +115,7 @@ public class BqRawToStagingPipeline {
         }
     }
 
-    public static void createPipeline(Pipeline pipeline, BqToBqPipelineOptions pipelineOptions) throws IOException, ParseException {
+    public static void createPipeline(Pipeline pipeline, BqToBqPipelineOptions_TEMPLATE_DOESNT_WORK pipelineOptions) throws IOException, ParseException {
         TableSchema schema = schemaParser.parse(pipelineOptions.getSchemaJsonPath());
         JSONArray jsonArray = schemaParser.toJsonArray(schemaParser.toJsonString(pipelineOptions.getSchemaJsonPath()));
         List<String> projectedColumns = getProjectedColumns(jsonArray);
@@ -144,7 +144,7 @@ public class BqRawToStagingPipeline {
         );
     }
 
-    public static void runPipeline(BqToBqPipelineOptions pipelineOptions) throws IOException, ParseException {
+    public static void runPipeline(BqToBqPipelineOptions_TEMPLATE_DOESNT_WORK pipelineOptions) throws IOException, ParseException {
         LOG.info("Running BigQuery Simple Pipeline with options " + pipelineOptions.toString());
         Pipeline pipeline = Pipeline.create(pipelineOptions);
         createPipeline(pipeline, pipelineOptions);
@@ -161,11 +161,11 @@ public class BqRawToStagingPipeline {
     }
 
     public static void main(String[] args) throws IOException, ParseException {
-        PipelineOptionsFactory.register(BqToBqPipelineOptions.class);
-        BqToBqPipelineOptions pipelineOptions = PipelineOptionsFactory
+        PipelineOptionsFactory.register(BqToBqPipelineOptions_TEMPLATE_DOESNT_WORK.class);
+        BqToBqPipelineOptions_TEMPLATE_DOESNT_WORK pipelineOptions = PipelineOptionsFactory
                 .fromArgs(args)
                 .withValidation()
-                .as(BqToBqPipelineOptions.class);
+                .as(BqToBqPipelineOptions_TEMPLATE_DOESNT_WORK.class);
 
         runPipeline(pipelineOptions);
     }

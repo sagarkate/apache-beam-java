@@ -8,7 +8,7 @@ import org.apache.beam.sdk.options.PipelineOptionsFactory;
 import org.apache.beam.sdk.values.PCollection;
 import com.google.api.services.bigquery.model.TableFieldSchema;
 import com.google.api.services.bigquery.model.TableSchema;
-import com.practice.gcp.transform.BqRawToStagingTransformFn;
+import com.practice.gcp.transform.BqRawToStagingTransformFnWithSchemaString;
 import org.apache.beam.sdk.options.ValueProvider.NestedValueProvider;
 import org.apache.beam.sdk.transforms.ParDo;
 import org.slf4j.Logger;
@@ -58,7 +58,7 @@ public class MyPipeline {
 
         PCollection<TableRow> transformedData = rawInput.apply(
                 "Transform Raw Input",
-                ParDo.of(new BqRawToStagingTransformFn(
+                ParDo.of(new BqRawToStagingTransformFnWithSchemaString(
                         pipelineOptions.getSchema(),
                         SCHEMA_FIELD_DELIMITER))
         );

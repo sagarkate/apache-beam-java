@@ -15,9 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class SchemaParser {
+public class SchemaParser_TEMPLATE_DOESNT_WORK {
     public String toJsonString(String schemaJsonPath) throws IOException {
-        ClassLoader classLoader = SchemaParser.class.getClassLoader();
+        ClassLoader classLoader = SchemaParser_TEMPLATE_DOESNT_WORK.class.getClassLoader();
         File file = new File(Objects.requireNonNull(classLoader.getResource(schemaJsonPath)).getFile());
         return FileUtils.readFileToString(file, StandardCharsets.UTF_8);
     }
