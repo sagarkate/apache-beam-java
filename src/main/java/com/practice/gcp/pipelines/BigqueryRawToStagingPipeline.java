@@ -31,7 +31,9 @@ public class BigqueryRawToStagingPipeline {
                 "Read from Raw Input Table",
                 BigQueryIO
                         .readTableRows()
-                        .from(pipelineOptions.getInput())
+//                        .from(pipelineOptions.getInput())
+                        .fromQuery(pipelineOptions.getInputQuery())
+                        .usingStandardSql()
                         .withTemplateCompatibility()
                         .withoutValidation()
         );

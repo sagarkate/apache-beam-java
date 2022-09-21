@@ -1,6 +1,7 @@
 package com.practice.gcp.transform;
 
 import java.math.BigDecimal;
+import java.sql.Time;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -53,6 +54,9 @@ public class BigqueryRawToStagingTransformFnWithGcs extends DoFn<TableRow, Table
                     break;
                 case "NUMERIC":
                     transformedRow = outputRow.set(fieldName, new BigDecimal((String) inputRow.get(fieldName)).toString());
+                    break;
+                case "TIME":
+                    transformedRow = outputRow.set(fieldName, Time.valueOf((String) inputRow.get(fieldName)).toString());
                     break;
                 default:
                     throw new Exception(String.format("Data type %s of field %s is not supported.. Please use one of the below data types: \n [INTEGER|LONG|DATE|DATETIME|TIMESTAMP|STRING|BOOLEAN|FLOAT|NUMERIC]", fieldType, fieldName));

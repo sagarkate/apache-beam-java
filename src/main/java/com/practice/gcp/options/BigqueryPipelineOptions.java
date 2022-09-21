@@ -16,16 +16,6 @@ public interface BigqueryPipelineOptions extends BigQueryOptions {
     ValueProvider<String> getInputQuery();
     void setInputQuery(ValueProvider<String> value);
 
-    @Description("Read method to use to read from BigQuery")
-    @Default.Enum("EXPORT")
-    BigQueryIO.TypedRead.Method getReadMethod();
-    void setReadMethod(BigQueryIO.TypedRead.Method value);
-
-    @Description("Write method to use to write to BigQuery")
-    @Default.Enum("DEFAULT")
-    BigQueryIO.Write.Method getWriteMethod();
-    void setWriteMethod(BigQueryIO.Write.Method value);
-
     @Description("Write disposition to use to write to BigQuery")
     @Default.Enum("WRITE_APPEND")
     BigQueryIO.Write.WriteDisposition getWriteDisposition();
