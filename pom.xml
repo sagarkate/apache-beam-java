@@ -12,6 +12,7 @@
         <beam.version>2.39.0</beam.version>
         <cloud-libraries-bom.version>26.1.0</cloud-libraries-bom.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+        <java.version>1.8</java.version>
     </properties>
 
     <build>
@@ -21,8 +22,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven-compiler-plugin.version}</version>
                 <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
+                    <source>11</source>
+                    <target>11</target>
                     <compilerArgument>-parameters</compilerArgument>
                     <parameters>true</parameters>
                     <testCompilerArgument>-parameters</testCompilerArgument>

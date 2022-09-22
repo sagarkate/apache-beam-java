@@ -1,6 +1,7 @@
 package com.practice.gcp.pipelines;
 
 import com.practice.gcp.options.BigqueryPipelineOptions;
+import com.practice.gcp.transform.BigqueryPartitionWriterFn;
 import com.practice.gcp.transform.BigqueryRawToStagingTransformFnWithGcs;
 import com.practice.gcp.utils.SchemaParser;
 import org.apache.beam.sdk.io.gcp.bigquery.BigQueryIO;
@@ -46,7 +47,9 @@ public class BigqueryRawToStagingPipeline {
         transformedData.apply(
                 BigQueryIO
                         .writeTableRows()
-                        .to(pipelineOptions.getOutput())
+                        .withCreateDisposition(BigQueryIO.Write.CreateDisposition.CREATE_NEVER)
+                        .withWriteDisposition(BigQueryIO.Write.WriteDisposition.WRITE_TRUNCATE)
+                        .to(new BigqueryPartitionWriterFn(pipelineOptions.getOutput(), pipelineOptions.getPartitionColumn()))
                         .withSchema(NestedValueProvider.of(pipelineOptions.getSchemaGcsPath(), new SerializableFunction<String, TableSchema>() {
                             @Override
                             public TableSchema apply(String schemaGcsPath) {
@@ -57,8 +60,7 @@ public class BigqueryRawToStagingPipeline {
                                 return tableSchema;
                             }
                         }))
-                        .withCreateDisposition(pipelineOptions.getCreateDisposition())
-                        .withWriteDisposition(pipelineOptions.getWriteDisposition())
+
 
         );
 
