@@ -1,34 +1,79 @@
 package com.practice.gcp.utils;
 
-import com.google.api.services.bigquery.model.TableFieldSchema;
-import com.google.api.services.bigquery.model.TableSchema;
-import org.apache.commons.io.FileUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import org.apache.beam.sdk.util.StreamUtils;
+import org.apache.beam.sdk.io.FileSystems;
+import org.apache.beam.sdk.options.ValueProvider;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import com.google.api.services.bigquery.model.TableFieldSchema;
+import com.google.api.services.bigquery.model.TableSchema;
+
+import java.nio.channels.ReadableByteChannel;
+import java.nio.channels.Channels;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class SchemaParser {
-    public String toJsonString(String schemaJsonPath) throws IOException {
-        ClassLoader classLoader = SchemaParser.class.getClassLoader();
-        File file = new File(Objects.requireNonNull(classLoader.getResource(schemaJsonPath)).getFile());
-        return FileUtils.readFileToString(file, StandardCharsets.UTF_8);
+
+    public ReadableByteChannel getSchemaReadableByteChannel(String schemaGcsPath) {
+        ReadableByteChannel readableByteChannel = null;
+        try {
+            readableByteChannel = FileSystems.open(FileSystems.matchNewResource(schemaGcsPath, false));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return readableByteChannel;
     }
 
-    public JSONArray toJsonArray(String schemaJson) throws ParseException {
+    public ReadableByteChannel getSchemaReadableByteChannel(ValueProvider<String> schemaGcsPath) {
+        ReadableByteChannel readableByteChannel = null;
+        try {
+            readableByteChannel = FileSystems.open(FileSystems.matchNewResource(schemaGcsPath.get(), false));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return readableByteChannel;
+    }
+
+    public String getSchemaJson(ReadableByteChannel schemaReadableByteChannel) {
+        String schemaJson = "";
+        try {
+            schemaJson = new String(StreamUtils.getBytesWithoutClosing(Channels.newInputStream(schemaReadableByteChannel)));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return schemaJson;
+    }
+
+    public JSONArray toJsonArray(String json) {
         JSONParser jsonParser = new JSONParser();
-        return (JSONArray) jsonParser.parse(schemaJson);
+        JSONArray jsonArray = new JSONArray();
+        try {
+            jsonArray = (JSONArray) jsonParser.parse(json);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonArray;
     }
 
-    public TableSchema toTableSchema(JSONArray jsonArray) {
-        TableSchema schema = new TableSchema();
+    public JSONArray getSchemaJsonArray(String schemaGcsPath) {
+        ReadableByteChannel readableByteChannel = getSchemaReadableByteChannel(schemaGcsPath);
+        String schemaJson = getSchemaJson(readableByteChannel);
+        return toJsonArray(schemaJson);
+    }
+
+    public JSONArray getSchemaJsonArray(ValueProvider<String> schemaGcsPath) {
+        ReadableByteChannel readableByteChannel = getSchemaReadableByteChannel(schemaGcsPath);
+        String schemaJson = getSchemaJson(readableByteChannel);
+        return toJsonArray(schemaJson);
+    }
+
+    public List<TableFieldSchema> getTableSchemaFields(JSONArray jsonArray) {
         List<TableFieldSchema> fields = new ArrayList<>();
         for (Object o : jsonArray) {
             JSONObject field = (JSONObject) o;
@@ -36,14 +81,16 @@ public class SchemaParser {
             String fieldType = (String) field.get("type");
             fields.add(new TableFieldSchema().setName(fieldName).setType(fieldType));
         }
+
+        return fields;
+    }
+
+    public TableSchema getTableSchema(String schemaGcsPath) {
+        JSONArray jsonArray = getSchemaJsonArray(schemaGcsPath);
+        TableSchema schema = new TableSchema();
+        List<TableFieldSchema> fields = getTableSchemaFields(jsonArray);
         schema.setFields(fields);
+
         return schema;
     }
-
-    public TableSchema parse(String jsonSchemaPath) throws IOException, ParseException {
-        String jsonSchema = toJsonString(jsonSchemaPath);
-        JSONArray jsonArray = toJsonArray(jsonSchema);
-        return toTableSchema(jsonArray);
-    }
-
 }
